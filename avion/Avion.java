@@ -17,10 +17,14 @@ public class Avion {
             x = ((v * v) / (2 * a));
             i++;
             if (v >= Vx) {
+                System.out.println("");
+                System.out.println("=============================");
                 System.out.println("Despegue");
                 System.out.println("Iteracion " + i);
                 System.out.println("Distancia " + x);
-                System.out.println("Tiempo " + time);
+                System.out.println("Tiempo " + time + " sg");
+                System.out.println("=============================");
+                System.out.println("");
 
                 break;
             }
