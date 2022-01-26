@@ -12,6 +12,7 @@ public class Estadio {
             ConteoAsistentes++;
             DineroAcumulado += pagoxingreso;
         }
+
         System.out.println("");
         System.out.println("=============================");
         //System.out.println("Iteracion " + ConteoAsistentes);
