@@ -13,15 +13,10 @@ public class Avion {
     float v = 0.0f;
     float x = 0.0f;
     public static void main(String[] args) {
-        System.out.print(DeltaTime + ": ");
-        Binary16(DeltaTime);
-        System.out.print(Vx + ": ");
-        Binary16(Vx);
-        System.out.print(a + ": ");
-        Binary16(a);
-        System.out.print(xLimite + ": ");
-        Binary16(xLimite);
+
+        System.out.println(Float_16(53.411f));
     }
+
     /**
      * Pasar un numero flotante de 32b bits a el numero binario de 16 bits
      * @param num
@@ -118,5 +113,87 @@ public class Avion {
         }
         return binary;
     }
+    /**
+     * Retorna el numero en 16 bits que es mas limitado
+     * @param n
+     * @return 16 bit float
+     */
+    public static float Float_16(float n) {
+        //Se obtiene el valor binario de 16 bits
+        ArrayList<Integer> binary = Binary16(n);
+        //Se obtiene el exponente y se convierte a decimal
+        //Luego se le resta el sesgo
+        String expBinary = "";
+        for(int i=1; i < 6; i++){
+            expBinary+= binary.get(i);
+        }
+        int expo=Integer.parseInt(expBinary,2) - sesgo;
+        //Se crea un string con el valor del binario normalizado
+        String normalized = "";
+        if(expo > 0){
+            normalized += "1";
+            int whole;
+            if(expo + 6 >= binary.size()){
+                whole = binary.size();
+            }else{
+                whole = expo + 6;
+            }
+
+            for(int i=6; i < whole; i++){
+                normalized += binary.get(i);
+            }
+            if(binary.subList(whole, binary.size()).contains(1)){
+                normalized += ".";
+                for(int i=whole; i < binary.lastIndexOf(1)+1; i++){
+                    normalized += binary.get(i);
+                }
+            }
+            while(normalized.length() < expo+1){
+                normalized += "0";
+            }
+        }else if(expo < 0){
+            normalized += "0.";
+            for(int i = 1; i < expo *-1; i++){
+                normalized += 0;
+            }
+            normalized += 1;
+            for(int i=6; i < binary.lastIndexOf(1)+1; i++){
+                normalized += binary.get(i);
+            }
+        }else {
+            normalized += "1.";
+            for(int i=6; i < binary.lastIndexOf(1)+1; i++){
+                normalized += binary.get(i);
+            }
+        }
+        //El valor del binario normalizado se pasa a un decimal y se retorna este.
+        return toDecimal(normalized);
+
+    }
+    /**
+     * Turns binary number to decimal
+     * @param binary
+     * @return float
+     */
+    public static float toDecimal(String binary) {
+        float number = 0;
+        float fraction = 0;
+        if(!binary.contains(".")){
+            number=Integer.parseInt(binary,2);
+        }else{
+            String[] decimal = binary.split("[.]");
+            number=Integer.parseInt(decimal[0],2);
+            for(int i=0; i < decimal[1].length(); i++){
+                int num = Character.getNumericValue(decimal[1].charAt(i));
+                if(num == 1){
+                    fraction += Math.pow(2, -(i+1));
+                }
+            }
+        }
+        number += fraction;
+        return number;
+    }
+
+
 
 }
