@@ -4,17 +4,64 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Avion {
-    static float  DeltaTime = 0.09375f;
-    static float Vx = 92.25f;
-    static float a = 0.625f;
-    static float xLimite = 6808.05f;
     static int sesgo = 15; //2^(5-1)-1
-    float time = 0.0f;
-    float v = 0.0f;
-    float x = 0.0f;
     public static void main(String[] args) {
+        //bit32();
+        bit16();
+    }
 
-        System.out.println(Float_16(53.411f));
+    public static void bit32() {
+        float  DeltaTime = (0.09375f);
+        float Vx = (92.25f);
+        float a = (0.625f);
+        float xLimite = (6808.05f);
+
+        float time = 0.0f;
+        float v = 0.0f;
+        float x = 0.0f;
+        float i = 0;
+        while (x<= xLimite){
+            time = (DeltaTime+time);
+            v =  (a*time);
+            x = (((v*v))/(2*a));
+            i++;
+            if(v>=Vx){
+                System.out.println("Ingresa: " + i + " veces");
+                System.out.println("Tiempo: " + time);
+                // 32 bits: 147.65625
+                // 16 bits: 148.5
+                break;
+            }
+        }
+    }
+
+    public static void bit16() {
+        float  DeltaTime = Float_16(0.09375f);
+        float Vx = Float_16(92.25f);
+        float a = Float_16(0.625f);
+        float xLimite = Float_16(6808.05f);
+
+        float time = 0.0f;
+        float v = 0.0f;
+        float x = 0.0f;
+        float i = 0;
+        System.out.println(Float_16(3.59375f));
+        /*
+        while (x<= xLimite){
+            time = Float_16(DeltaTime+time);
+            v =  Float_16((a*time));
+            x = Float_16(((v*v))/(2*a));
+            i++;
+            break;
+            /*
+            if(v>=Vx){
+                System.out.println("Hola");
+                System.out.println("Ingresa: " + i + " veces");
+                System.out.println("Tiempo: " + time);
+                break;
+            }
+        }*/
+
     }
 
     /**
@@ -59,24 +106,63 @@ public class Avion {
         for (Integer n : expfp) {
             bit16.add(n);
         }
+
+        if(fractionBinary.size() +  wholeBinary.size() > 10){
+
+            if(!wholeBinary.isEmpty()){
+                wholeBinary.remove(0);
+                for (Integer integer : fractionBinary) {
+                    wholeBinary.add(integer);
+                }
+                int position = wholeBinary.size() - 10;
+                int value = wholeBinary.get(wholeBinary.size() - position);
+                while(position > 0){
+                    wholeBinary.remove(wholeBinary.size()-1);
+                    position--;
+                }
+                if(value == 1){
+                    System.out.println("Suma");
+                    wholeBinary = addOne(wholeBinary);
+                }
+
+            }else{
+                for (Integer integer : fractionBinary) {
+                    wholeBinary.add(integer);
+                }
+                int position = wholeBinary.size() - 10;
+                int value = wholeBinary.get(wholeBinary.size() - position);
+
+                while(position > 0){
+                    wholeBinary.remove(wholeBinary.size()-1);
+                    position--;
+                }
+                if(value == 1){
+                    wholeBinary = addOne(wholeBinary);
+                }
+            }
+
+
+
+        }
+
+
         //Se agregan el resto de números dependiendo si el exp es negativo o no
         if(exp <= 0){
             for(int i=(exp * -1); i < fractionBinary.size() && bit16.size() <= 16; i++){
                 bit16.add(fractionBinary.get(i));
             }
         }else{
-            for(int i=(wholeBinary.size()-exp); i < wholeBinary.size() && bit16.size() < 16; i++){
+            for(int i=0; i < wholeBinary.size() && bit16.size() < 16; i++){
                 bit16.add(wholeBinary.get(i));
             }
-            for(int i=0; i < fractionBinary.size() && bit16.size() < 16; i++){
-                bit16.add(fractionBinary.get(i));
-            }
+            System.out.println("Bit 16 de " + num + " " + bit16);
         }
         //Se rellena el binario de 0 para cumplir el tamaño de 16 bits
         while(bit16.size() <16){
             bit16.add(0);
         }
         //Retorna la lista de 16 bits
+
         return bit16;
 
     }
@@ -113,6 +199,21 @@ public class Avion {
         }
         return binary;
     }
+
+    public static ArrayList<Integer> addOne(ArrayList<Integer> binary) {
+        ArrayList<Integer> biNum = new ArrayList<Integer>();
+        String number = "";
+        for (Integer integer : binary) {
+            number += integer;
+        }
+        int sum = Integer.parseInt(number,2) + 1;
+        String added = Integer.toBinaryString(sum);
+        for(int i =0; i < added.length(); i++){
+            biNum.add(Character.getNumericValue(added.charAt(i)));
+        }
+        return biNum;
+    }
+
     /**
      * Retorna el numero en 16 bits que es mas limitado
      * @param n
@@ -190,7 +291,9 @@ public class Avion {
                 }
             }
         }
+
         number += fraction;
+
         return number;
     }
 
