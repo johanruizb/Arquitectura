@@ -1,6 +1,6 @@
-package avion;
-
+package Avion;
 import java.math.BigDecimal;
+
 /**
  * Permite crear floats de solo 16 bits,
  * no funciona con negativos
