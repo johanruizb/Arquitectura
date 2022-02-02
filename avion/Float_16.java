@@ -1,18 +1,27 @@
 package avion;
 
 import java.math.BigDecimal;
-
+/**
+ * Permite crear floats de solo 16 bits,
+ * no funciona con negativos
+ */
 public class Float_16 {
     final int sign = 1;
     final int exponent = 5;
     final int mantissa = 10;
     final int bias = 15;
     int Exp = 0;
-
+    /**
+     * Constructor
+     */
     public Float_16(){
         System.out.println("Clase Float");
     }
-
+    /**
+     * Retorna un string del numero en binario
+     * @param n
+     * @return string
+     */
     public String toBinary(float n) {
         BigDecimal number = new BigDecimal(String.valueOf(n));
         int whole = number.intValue();
@@ -42,7 +51,10 @@ public class Float_16 {
         //System.out.println(n + " = " + binary);
         return binary;
     }
-
+    /**
+     * Calcula el exponente del numero
+     * @param n
+     */
     public void setExp(String n){
         int exp = 0;
         if(n.charAt(0) == '.'){
@@ -53,11 +65,19 @@ public class Float_16 {
         //System.out.print("Exp = " + exp + " ");
         Exp = exp;
     }
-
+    /**
+     * Obtiene el exponente del numero
+     * @return
+     */
     public int getExp(){
         return Exp;
     }
-
+    /**
+     * Normaliza un numero binario,
+     * debe ingresar como un string
+     * @param n
+     * @return string
+     */
     public String normalize(String n) {
 
         setExp(n);
@@ -72,7 +92,13 @@ public class Float_16 {
         //System.out.println(" Normalized = " + normalized);
         return normalized;
     }
-    //Por ahora no cuenta números negativos
+    /**
+     * Vuelve un string de un numero binario
+     * en su forma punto flotante.
+     * No funciona con negativos aun.
+     * @param n
+     * @return
+     */
     public String getFloatingPoint(String n){
         n = n.substring(2, n.length());
         String floatingPoint = "0";
@@ -92,7 +118,12 @@ public class Float_16 {
         return floatingPoint;
 
     }
-
+    /**
+     * Trunca el numero binario si hay
+     * un desborde
+     * @param n
+     * @return
+     */
     public String overflow(String n){
         String number = n.substring(0, 10);
         if(n.charAt(10) == '1'){
@@ -104,13 +135,24 @@ public class Float_16 {
         }
         return number;
     }
-    /**Organizarlo */
+
+    /**
+     * Llama las funciones necesarias para obtener
+     * el valor ya en 16 bits.
+     * @param n
+     * @return
+     */
     public float float16(float n){
         String bit16 = getFloatingPoint(normalize(toBinary(n)));
         String binary = toBinary(bit16);
         return getNumber(binary);
     }
-
+    /**
+     * Vuelve un string de un binario en punto flotante,
+     * a un binario normal.
+     * @param n
+     * @return String
+     */
     public String toBinary(String n){
        String binary = "";
        String expfp = n.substring(1, 6);
@@ -146,10 +188,13 @@ public class Float_16 {
             binary += "1.";
             binary += n.substring(6, n.lastIndexOf('1')+1);
         }
-        //System.out.print(" BINARIO " + binary);
         return binary;
     }
-
+    /**
+     * Retorna el valor de un numero binario
+     * @param n
+     * @return Float
+     */
     public float getNumber(String n){
         String whole ="";
         float number = 0;
