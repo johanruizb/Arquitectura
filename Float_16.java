@@ -1,3 +1,18 @@
+
+/** 
+ * En este documento se realiza el desarrollo de la asignacion "EjercicioEnclase_7_Abril2021"
+ * visto en clase. Emplearemos los temas de representacion en coma flotante de
+ * 16bits desde el lenguaje Java usando float modificado para funcionar a 16 bits.
+ * 
+ * Nota: Ejecutado usando Java (TM) by Red Hat
+ *
+ * Codigo fuente: EjercicioEnclase_7_Abril2021.pdf
+ *
+ * Modificado por: Johan Ruiz - johan.andres.ruiz@correounivalle.edu.co
+ *                 Ingrid Echeverri - ingrid.echeverri@correounivalle.edu.co
+ * Fecha: 02/02/2022
+*/
+
 import java.math.BigDecimal;
 
 /**
