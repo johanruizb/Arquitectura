@@ -20,15 +20,15 @@ public class Float_16 {
 
     /**
      * Retorna un string del numero en binario
-     * 
+     *
      * @param n
-     * @return string
+     * @return string. Binario en texto, como "10","011", etc
      */
     public String toBinary(float n) {
         BigDecimal number = new BigDecimal(String.valueOf(n));
         int whole = number.intValue();
         float decimal = number.remainder(BigDecimal.ONE).floatValue();
-        // ArrayList<Object> binary = new ArrayList<>();
+
         String binary = "";
         while (whole > 0) {
             if (whole % 2 == 0) {
@@ -50,13 +50,13 @@ public class Float_16 {
                 i++;
             }
         }
-        // System.out.println(n + " = " + binary);
+
         return binary;
     }
 
     /**
      * Calcula el exponente del numero
-     * 
+     *
      * @param n
      */
     public void setExp(String n) {
@@ -66,14 +66,14 @@ public class Float_16 {
         } else {
             exp = n.substring(0, n.indexOf('.')).length() - 1;
         }
-        // System.out.print("Exp = " + exp + " ");
+
         Exp = exp;
     }
 
     /**
      * Obtiene el exponente del numero
-     * 
-     * @return
+     *
+     * @return Exp. El exponente en numero entero
      */
     public int getExp() {
         return Exp;
@@ -82,9 +82,9 @@ public class Float_16 {
     /**
      * Normaliza un numero binario,
      * debe ingresar como un string
-     * 
+     *
      * @param n
-     * @return string
+     * @return string. Binario normalizado
      */
     public String normalize(String n) {
 
@@ -97,7 +97,7 @@ public class Float_16 {
         } else {
             return n;
         }
-        // System.out.println(" Normalized = " + normalized);
+
         return normalized;
     }
 
@@ -105,9 +105,9 @@ public class Float_16 {
      * Vuelve un string de un numero binario
      * en su forma punto flotante.
      * No funciona con negativos aun.
-     * 
+     *
      * @param n
-     * @return
+     * @return floatingPoint. El binario en representacion de 16bits como string
      */
     public String getFloatingPoint(String n) {
         n = n.substring(2, n.length());
@@ -124,17 +124,16 @@ public class Float_16 {
         while (floatingPoint.length() < (sign + exponent + mantissa)) {
             floatingPoint += "0";
         }
-        // System.out.println(" Floating: " + floatingPoint);
-        return floatingPoint;
 
+        return floatingPoint;
     }
 
     /**
      * Trunca el numero binario si hay
      * un desborde
-     * 
+     *
      * @param n
-     * @return
+     * @return number. El numero en binario como string una vez ya truncado
      */
     public String overflow(String n) {
         String number = n.substring(0, 10);
@@ -151,22 +150,24 @@ public class Float_16 {
     /**
      * Llama las funciones necesarias para obtener
      * el valor ya en 16 bits.
-     * 
+     *
      * @param n
-     * @return
+     * @return float. Representacion en numero flotante de 16 bits
      */
     public float float16(float n) {
         String bit16 = getFloatingPoint(normalize(toBinary(n)));
         String binary = toBinary(bit16);
+
         return getNumber(binary);
     }
 
     /**
      * Vuelve un string de un binario en punto flotante,
      * a un binario normal.
-     * 
+     *
      * @param n
-     * @return String
+     * @return String. El binario en representacion de punto flotante convertido en
+     *         un binario natural.
      */
     public String toBinary(String n) {
         String binary = "";
@@ -202,14 +203,15 @@ public class Float_16 {
             binary += "1.";
             binary += n.substring(6, n.lastIndexOf('1') + 1);
         }
+
         return binary;
     }
 
     /**
-     * Retorna el valor de un numero binario
-     * 
+     * Retorna el valor float de un numero binario
+     *
      * @param n
-     * @return Float
+     * @return Float. El valor flotante de un binario natural.
      */
     public float getNumber(String n) {
         String whole = "";
@@ -238,8 +240,8 @@ public class Float_16 {
                 x--;
             }
         }
-        return number;
 
+        return number;
     }
 
 }
